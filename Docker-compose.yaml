@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+
+  MySqL:
+    image: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=A123a123
+    volumes:
+      - TorqGoApp:/data/db
+  
+  GoApp:
+    image: my_go_app
+    ports:
+      - 8080:8080
+    environment:
+      - MYPASS=A123a123
+      - DBHOST=MySqL
+    restart: on-failure
+    depends_on:
+      - MySqL
+
+volumes:
+  TorqGoApp:
+    driver: local
